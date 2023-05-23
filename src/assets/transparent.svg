@@ -1,0 +1,11 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+
+    <pattern id="Pattern" x="0" y="0" width=".50" height=".50">
+      <rect x="0" y="0" width="50" height="50" fill="#505050" />
+      <rect x="50" y="50" width="50" height="50" fill="#505050" />
+    </pattern>
+  </defs>
+
+  <rect fill="url(#Pattern)" width="200" height="200" stroke="#505050" stroke-width="10" />
+</svg>

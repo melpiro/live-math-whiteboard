@@ -1,0 +1,251 @@
+$backgound: #ecf0f1;
+$backgound-second: #bdc3c7;
+$first: #2c3e50;
+$second: #3498db;
+$third: #2980b9;
+
+$blue: #3498db;
+$red: #e74c3c;
+$yellow: #f1c40f;
+$green: #2ecc71;
+$pink: #e91e63;
+$orange: #ff9800;
+$purple: #9c27b0;
+$black: #000000;
+
+
+
+
+header{
+
+
+    width: 100%;
+    height: 5vw;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+
+    background-color: $backgound;
+    border-bottom: 1px solid $second;
+
+    z-index: 1;
+}
+
+header.small{
+    height: 3vw;
+}
+
+#mathfield-header{
+    height: 5vw;
+}
+.hidden{
+    display: none;
+}
+
+
+#color, #tools, #style{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    width: 33vw;
+
+}
+
+#color{
+    width: 10.5vw;
+}
+#tools{
+    width: 21vw;
+}
+#style{
+    width: 21vw;
+}
+
+header.small>#color{
+    width: 20.5vw;
+}
+header.small>#tools{
+    display: none;
+}
+
+#color>a{
+    width: 2vw;
+    height: 2vw;
+    border: 0.1vw solid $black;
+    border-radius: 0.5vw;
+    margin: 0.15vw;
+}
+#color>a.selected{
+    width: 2.3vw;
+    height: 2.3vw;
+    margin: 0;
+}
+
+
+#color-blue{background-color: $blue;}
+#color-red{background-color: $red;}
+#color-yellow{background-color: $yellow;}
+#color-green{background-color: $green;}
+#color-pink{background-color: $pink;}
+#color-orange{background-color: $orange;}
+#color-purple{background-color: $purple;}
+#color-black{background-color: $black;}
+
+
+
+
+
+
+
+#tools, #style{
+    font-size: 3vw;
+    color: $black;
+}
+#tools>a, #style>a{
+    width: 2.3vw;
+    height: 2.3vw;
+    border: 0.1vw solid $black;
+    border-radius: 0.5vw;
+    margin: 0.2vw;
+
+    text-decoration: none;
+    color: $black;
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#tools>a>img, #style>a>img{
+    width: 80%;
+    height: 80%;
+}
+#tools>a.selected{
+    background-color: $backgound-second;
+}
+
+
+
+#style>a.selected{
+    background-color: $backgound-second;
+}
+
+#style>a>div{
+    width: 3.125vw;
+    background-color: $black;
+}
+
+
+#style-very-thin>div{height: 0.1vw;}
+#style-thin>div{height: 0.2vw;}
+#style-medium>div{height: 0.5vw;}
+#style-thick>div{height: 0.8vw;}
+#style-very-thick>div{height: 1vw;}
+
+
+
+
+
+#canvas{
+    position: relative; 
+    width: 100vw;
+    height: calc(100vh - 5vw - 1px);
+    background-color: $backgound;
+    overflow: hidden;
+}
+
+#canvas>*{
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+
+}
+#svg{
+    width: 100vw;
+    height: calc(100vh - 5vw - 1px);
+}
+
+
+
+.btn, .btn-valid, .btn-alert, .btn-cancel, .btn-info{
+
+    
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+
+    background-color: #2f2f2f;
+    border: none;
+    color: #d6d6d6;
+    text-decoration: none;
+    cursor: pointer;
+
+    font-size: min(2vw, 25px);
+
+    transition: all 0.1s ease-in-out;
+
+    padding: 0.5vw;
+    border-radius: 0.5vw;
+
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+.btn-valid{
+    background-color: #5d8c43;
+    
+}
+.btn-alert{
+    background-color: #bd9544;
+    
+}
+.btn-cancel{
+    background-color: #c23616;
+}
+.btn-info{
+    background-color: #43688c;
+}
+.btn:hover{
+    background-color: #434343;
+
+    transform: scale(1.05);
+    transition: all 0.1s ease-in-out;
+}
+.btn-valid:hover{
+    background-color: #3a6523;
+
+    transform: scale(1.05);
+    transition: all 0.1s ease-in-out;
+}
+.btn-alert:hover{
+    background-color: #9b752b;
+
+    transform: scale(1.05);
+    transition: all 0.1s ease-in-out;
+}
+.btn-cancel:hover{
+    background-color: #8c1e05;
+
+    transform: scale(1.05);
+    transition: all 0.1s ease-in-out;
+}
+.btn-info:hover{
+    background-color: #43688c;
+
+    transform: scale(1.05);
+    transition: all 0.1s ease-in-out;
+    
+}
