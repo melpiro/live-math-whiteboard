@@ -6,8 +6,8 @@ import { CollisionService } from '../collision.service';
 
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 
-
-
+import { Socket } from 'ngx-socket-io';
+import { Router } from '@angular/router';
 
 // $blue: #3498db;
 // $red: #e74c3c;
@@ -100,20 +100,23 @@ function styleToString(style:Style) {
   }
 }
 
-function genKey() {
-  // generate a string composed of [a-zA-Z0-9] of length 10
-  let key = "";
-  for(let i = 0; i < 10; i++) {
-    let r = Math.floor(Math.random() * 62);
-    if(r < 10) {
-      key += r;
-    } else if(r < 36) {
-      key += String.fromCharCode(r + 55);
-    } else {
-      key += String.fromCharCode(r + 61);
-    }
+function number_to_base62(n:number) {
+  let base62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  let result = "";
+  while (n > 0) {
+    result = base62[n % 62] + result;
+    n = Math.floor(n / 62);
   }
-  return key;
+  return result;
+}
+
+function genKey(seed?:number) {
+  // generate a string composed of [a-zA-Z0-9] from timestamp
+  if (seed == null) {
+    let timestamp = Math.round(Date.now() / 100);
+    return number_to_base62(timestamp);
+  }
+  return number_to_base62(seed);
 }
 
 function round(n:number, d:number) {
@@ -150,7 +153,7 @@ export class BoardComponent implements OnInit {
   transparent:boolean = false;
   dashed:boolean = false;
 
-  board_id:string = "dvz841cef4z2"
+  board_id:string = ""
 
 
 
@@ -177,14 +180,42 @@ export class BoardComponent implements OnInit {
   actual_translate:[number, number] = [0, 0];
 
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private db: AngularFireDatabase,
+    private socket: Socket,
+    private router: Router,
+    ) { }
 
   ngOnInit(): void {
+    // read url arg : id
+    let url = new URL(window.location.href);
+    let id = url.searchParams.get("id");
+    if (id != null) {
+      this.board_id = id;
+    }
+    if (this.board_id == "") {
+      // generate a new board id and redirect
+      let seed = Math.round(Math.random() * 1000000000000000);
+      this.board_id = genKey(seed);
 
+      this.socket.emit("make-board", { id: this.board_id })
+      console.log("make-board, new board id : " + this.board_id);
+      
+      setTimeout(() => {
+        this.router.navigate(['/board'], { queryParams: { id: this.board_id } });
+      }, 1000);
+    }
+    // this.socket.emit("join-board", { id: this.board_id })
+
+
+    // connect to the server with socket.io
+    
 
     this.db.database.ref('boards/'+this.board_id+"/objects").on('value', (snapshot) => {
       // only get what changed
       let data = snapshot.val();
+
+      if (!data)
+        data = {};
 
 
       let object_exists = new Map<string, boolean>();
@@ -195,9 +226,18 @@ export class BoardComponent implements OnInit {
       if (this.actual_object != null)
         object_exists.set(this.actual_object, true);
 
+      // sort data by key
+      let keys = Object.keys(data);
+      keys.sort();
+      let sorted_data:{[key:string]:any} = {};
+      for (let key of keys) {
+        sorted_data[key] = data[key];
+      }
+
+
       // iterate over key, value (string, object)
-      for(let key in data) {
-        let object = data[key];
+      for(let key in sorted_data) {
+        let object = sorted_data[key];
 
         object_exists.set(key, true);
         
@@ -597,7 +637,7 @@ export class BoardComponent implements OnInit {
     });
 
 
-    this.mathfield.setAttribute("style", "width: 50vw; font-size: 2em;")
+    this.mathfield.setAttribute("style", "width: 50vw; font-size: min(1.2vw, 20px); padding: 0;")
 
     window.mathVirtualKeyboard.alphabeticLayout = 'azerty';
     // window.mathVirtualKeyboard.container = document.getElementById('keyboard');
@@ -966,7 +1006,7 @@ export class BoardComponent implements OnInit {
       let dx = x - svg_data.shape[svg_data.shape.length-1][0];
       let dy = y - svg_data.shape[svg_data.shape.length-1][1];
       let l = Math.sqrt(dx*dx + dy*dy);
-      if (l < this.selectedStyle) return;
+      if (l < 3) return;
 
       svg_data.shape.push([x, y]);
 
@@ -1245,7 +1285,6 @@ export class BoardComponent implements OnInit {
         this.svg.removeChild(svg);
         this.objects.delete(this.actual_object);
         this.objects_data.delete(this.actual_object);
-        console.log("delete");
         
         this.db.database.ref('boards/' + this.board_id + '/objects/' + this.actual_object).remove();
     }
@@ -1313,13 +1352,6 @@ export class BoardComponent implements OnInit {
     let backgound_delta_x = (width - virtualWidth * scale) / 2.0 + 50 * scale / NB_DOT - this.actual_translate[0] * scale
     let backgound_delta_y = (height - virtualHeight * scale) / 2.0 + 50 * scale / NB_DOT - this.actual_translate[1] * scale
 
-    console.log();
-    
-
-    console.log("backgound_delta_x", backgound_delta_x);
-    console.log("backgound_delta_y", backgound_delta_y);
-    console.log("svg_tile_width", svg_tile_width);
-    console.log("scale", scale);
     
     
     //<circle mask="url(#fade)" cx="${svg_tile_width_half}" cy="${svg_tile_width_half}" r="${svg_radius}" fill="#909090"></circle>

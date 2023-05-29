@@ -29,3 +29,10 @@ app-board{
 svg{
     user-select: none;
 }
+
+@media not (pointer: coarse) {
+    math-field::part(virtual-keyboard-toggle) {
+      display: none;
+    }
+  }
+

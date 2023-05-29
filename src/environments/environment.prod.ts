@@ -9,5 +9,9 @@ export const environment = {
     authDomain: 'math-board-cae64.firebaseapp.com',
     messagingSenderId: '583599596191',
     measurementId: 'G-QMRRZXEB3C',
+  },
+  socket: {
+    url: 'http://localhost:3000',
+    options: {}
   }
 };

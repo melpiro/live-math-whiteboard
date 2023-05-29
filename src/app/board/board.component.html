@@ -1,39 +1,39 @@
 <header id="header">
     <div id="color">
-        <a href="#" id="color-blue"   (click)="selectColor(C.blue)"></a>
-        <a href="#" id="color-red"    (click)="selectColor(C.red)"></a>
-        <a href="#" id="color-yellow" (click)="selectColor(C.yellow)"></a>
-        <a href="#" id="color-green"  (click)="selectColor(C.green)"></a>
-        <a href="#" id="color-pink"   (click)="selectColor(C.pink)"></a>
-        <a href="#" id="color-orange" (click)="selectColor(C.orange)"></a>
-        <a href="#" id="color-purple" (click)="selectColor(C.purple)"></a>
-        <a href="#" id="color-black"  (click)="selectColor(C.black)"></a>
+        <a id="color-blue"   (click)="selectColor(C.blue)"></a>
+        <a id="color-red"    (click)="selectColor(C.red)"></a>
+        <a id="color-yellow" (click)="selectColor(C.yellow)"></a>
+        <a id="color-green"  (click)="selectColor(C.green)"></a>
+        <a id="color-pink"   (click)="selectColor(C.pink)"></a>
+        <a id="color-orange" (click)="selectColor(C.orange)"></a>
+        <a id="color-purple" (click)="selectColor(C.purple)"></a>
+        <a id="color-black"  (click)="selectColor(C.black)"></a>
     </div>
     <div id="tools">
-        <a href="#" id="tool-pen"      (click)="selectTool(T.pen)"><img src="assets/pen.png"></a>
-        <a href="#" id="tool-eraser"   (click)="selectTool(T.eraser)"><img src="assets/eraser.png"></a>
-        <a href="#" id="tool-line"     (click)="selectTool(T.line)"><img src="assets/line.png"></a>
-        <a href="#" id="tool-arrow"    (click)="selectTool(T.arrow)"><img src="assets/arrow.png"></a>
-        <a href="#" id="tool-rectangle"(click)="selectTool(T.rectangle)"><img src="assets/rectangle.png"></a>
-        <a href="#" id="tool-circle"   (click)="selectTool(T.circle)"><img src="assets/circle.png"></a>
-        <a href="#" id="tool-math"     (click)="selectTool(T.math)"><img src="assets/math.png"></a>
+        <a id="tool-pen"      (click)="selectTool(T.pen)"><img src="assets/pen.png"></a>
+        <a id="tool-eraser"   (click)="selectTool(T.eraser)"><img src="assets/eraser.png"></a>
+        <a id="tool-line"     (click)="selectTool(T.line)"><img src="assets/line.png"></a>
+        <a id="tool-arrow"    (click)="selectTool(T.arrow)"><img src="assets/arrow.png"></a>
+        <a id="tool-rectangle"(click)="selectTool(T.rectangle)"><img src="assets/rectangle.png"></a>
+        <a id="tool-circle"   (click)="selectTool(T.circle)"><img src="assets/circle.png"></a>
+        <a id="tool-math"     (click)="selectTool(T.math)"><img src="assets/math.png"></a>
     </div>
     <div id="style">
-        <a href="#" id="style-very-thin" (click)="selectStyle(S.veryThin)"><div></div></a>
-        <a href="#" id="style-thin"     (click)="selectStyle(S.thin)"><div></div></a>
-        <a href="#" id="style-medium"   (click)="selectStyle(S.medium)"><div></div></a>
-        <a href="#" id="style-thick"    (click)="selectStyle(S.thick)"><div></div></a>
-        <a href="#" id="style-very-thick"(click)="selectStyle(S.veryThick)"><div></div></a>
+        <a id="style-very-thin" (click)="selectStyle(S.veryThin)"><div></div></a>
+        <a id="style-thin"     (click)="selectStyle(S.thin)"><div></div></a>
+        <a id="style-medium"   (click)="selectStyle(S.medium)"><div></div></a>
+        <a id="style-thick"    (click)="selectStyle(S.thick)"><div></div></a>
+        <a id="style-very-thick"(click)="selectStyle(S.veryThick)"><div></div></a>
 
-        <a href="#" id="style-transparency"(click)="toggleTransparency()"><img src="assets/transparent.svg"></a>
-        <a href="#" *ngIf="!this.typeMath" id="style-dashed"(click)="toggleDashed()"><img src="assets/dashed.png"></a>
+        <a id="style-transparency"(click)="toggleTransparency()"><img src="assets/transparent.svg"></a>
+        <a *ngIf="!this.typeMath" id="style-dashed"(click)="toggleDashed()"><img src="assets/dashed.png"></a>
     </div>
 </header>
 <header id="mathfield-header" [ngClass]="{'hidden': !typeMath}">
     <div id="mathfield">
 
     </div>
-    <a href="#" class="btn-valid material-icons" (click)="validMath()" style="font-weight: bold;">done</a>
+    <a class="btn-valid material-icons" (click)="validMath()" style="font-weight: bold;">done</a>
 </header>
 <div id="canvas" (window:resize)="onResize($event)">
     <!-- detect click pressed released and mouse move -->
